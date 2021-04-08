@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
-const Navbar = ({ openSidebar, closeSideBar }) => {
+const PrivateNavbar = ({ openSidebar, closeSideBar }) => {
   const classes = useStyles();
   return (
     <AppBar className={classes.appBar}>
@@ -33,4 +33,4 @@ const Navbar = ({ openSidebar, closeSideBar }) => {
   );
 };
 
-export default Navbar;
+export default PrivateNavbar;
