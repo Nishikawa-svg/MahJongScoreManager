@@ -2,12 +2,7 @@ import React, { useContext } from "react";
 import PrivateLayout from "./components/PrivateLayout";
 import PublicLayout from "./components/PublicLayout";
 import { makeStyles } from "@material-ui/core";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Scoring from "./pages/Scoring";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
