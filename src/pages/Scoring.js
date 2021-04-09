@@ -9,6 +9,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
+import ConfirmResultDialog from "../components/ConfirmResultDialog";
 
 const useStyles = makeStyles((theme) => ({
   directionContainer: {
@@ -33,28 +34,28 @@ const useStyles = makeStyles((theme) => ({
 
 const directions = ["East", "South", "West", "North"];
 
-const initialSelectedUsers = ["", "", "", ""];
+const initialPlayers = ["", "", "", ""];
 const initialPoints = ["", "", "", ""];
 
 const Scoring = () => {
   const { users } = useContext(CommunityContext);
-  const [selectedUsers, setSelectedUsers] = useState(initialSelectedUsers);
+  const [players, setPlayers] = useState(initialPlayers);
 
   const [points, setPoints] = useState(initialPoints);
   const classes = useStyles();
   const handlePlayerChange = (e, index) => {
-    let newSelectedUsers = [...selectedUsers];
+    let newPlayers = [...players];
     if (e.target.value === "") {
-      newSelectedUsers[index] = "";
+      newPlayers[index] = "";
     } else {
-      newSelectedUsers[index] = e.target.value;
+      newPlayers[index] = e.target.value;
     }
-    setSelectedUsers(newSelectedUsers);
+    setPlayers(newPlayers);
   };
   const handlePointChange = (e, index) => {
     let newPoints = [...points];
     newPoints[index] = e.target.value;
-    console.log(newPoints);
+    // console.log(newPoints);
 
     setPoints(newPoints);
   };
@@ -62,8 +63,8 @@ const Scoring = () => {
     return isNaN(input);
   };
   const handleResultConfirm = () => {
-    //modify after (repel insufficient form input)
-    console.log(selectedUsers, points);
+    //modify after (repel insufficient form input)//
+    console.log(players, points);
   };
   return (
     <>
@@ -83,7 +84,7 @@ const Scoring = () => {
                     <Select
                       native
                       label="player"
-                      value={selectedUsers[index]}
+                      value={players[index]}
                       onChange={(e) => handlePlayerChange(e, index)}
                     >
                       <option value="" />
@@ -116,13 +117,14 @@ const Scoring = () => {
         </div>
       ))}
       <Button onClick={handleResultConfirm}>Confirm</Button>
+      <ConfirmResultDialog players={players} points={points} />
       <div>
         {points.map((point, index) => (
           <div key={index}>
             point{index} : {point}
           </div>
         ))}
-        {selectedUsers.map((user, index) => (
+        {players.map((user, index) => (
           <div key={index}>
             user{index} : {user}
           </div>
