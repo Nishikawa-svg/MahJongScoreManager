@@ -1,42 +1,62 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import firebase from "../Firebase";
 
 export const AuthContext = createContext();
 
 const AuthProvider = (props) => {
   const history = useHistory();
-  // useEffect(() => {
-  //   console.log("AuthContext was mounted");
-  //   const storagedId = localStorage.getItem("mrm_auth_id");
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user.uid, "was log in");
+        setIsAuth(true);
+        setLoginUser({ uid: user.uid, name: user.displayName });
+      } else {
+        console.log("not log in");
+      }
+    });
+  }, []);
 
-  //   if (storagedId) {
-  //     setIsAuth(true);
-  //   }
-  //   return () => {
-  //     console.log("AuthContext was unmounted");
-  //   };
-  // }, []);
-  const auth = () => {
-    const storagetId = localStorage.getItem("mrm_auth_id");
-    if (storagetId) return true;
-  };
+  const [isAuth, setIsAuth] = useState(false);
+  const [loginUser, setLoginUser] = useState({ uid: "", name: "" });
 
-  const [isAuth, setIsAuth] = useState(auth());
-
-  const login = (communityId, password) => {
-    // console.log(communityId, password);
-    if (communityId === "E11" && password === "jong") {
-      localStorage.setItem("mrm_auth_id", communityId);
-      setIsAuth(true);
-      history.push("/");
-    } else {
-      alert("failed to login");
-    }
+  const login = (email, password) => {
+    console.log(email, password);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        console.log("log in success");
+        setIsAuth(true);
+        history.push("/");
+      })
+      .catch((error) => console.log("log in error ", error));
   };
   const logout = () => {
-    localStorage.removeItem("mrm_auth_id");
     setIsAuth(false);
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("log out success");
+      })
+      .catch((error) => {
+        console.log("log out failed", error);
+      });
     history.push("/");
+  };
+
+  const signUp = (email, password) => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log("sign up success");
+        setIsAuth(true);
+        history.push("/");
+      })
+      .catch((error) => console.log("sign up failed", error));
   };
 
   return (
@@ -46,6 +66,8 @@ const AuthProvider = (props) => {
         setIsAuth: setIsAuth,
         login: login,
         logout: logout,
+        signUp: signUp,
+        loginUser: loginUser,
       }}
     >
       {props.children}

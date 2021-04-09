@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Grid,
   makeStyles,
@@ -6,7 +6,9 @@ import {
   InputLabel,
   Select,
   TextField,
+  Button,
 } from "@material-ui/core";
+import { CommunityContext } from "../contexts/CommunityContext";
 
 const useStyles = makeStyles((theme) => ({
   directionContainer: {
@@ -29,25 +31,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const users = [
-  { id: 0, name: "nishikawa", selected: false },
-  { id: 1, name: "kiyono", selected: false },
-  { id: 2, name: "mizuno", selected: false },
-  { id: 3, name: "nakajima", selected: false },
-  { id: 4, name: "yoneta", selected: false },
-  { id: 5, name: "seto", selected: false },
-  { id: 6, name: "masanobu", selected: false },
-  { id: 7, name: "pino", selected: false },
-  { id: 8, name: "yamasyo", selected: false },
-  { id: 9, name: "takuro", selected: false },
-];
-
 const directions = ["East", "South", "West", "North"];
 
 const initialSelectedUsers = ["", "", "", ""];
 const initialPoints = ["", "", "", ""];
 
 const Scoring = () => {
+  const { users } = useContext(CommunityContext);
   const [selectedUsers, setSelectedUsers] = useState(initialSelectedUsers);
 
   const [points, setPoints] = useState(initialPoints);
@@ -57,7 +47,7 @@ const Scoring = () => {
     if (e.target.value === "") {
       newSelectedUsers[index] = "";
     } else {
-      newSelectedUsers[index] = users[e.target.value].id;
+      newSelectedUsers[index] = e.target.value;
     }
     setSelectedUsers(newSelectedUsers);
   };
@@ -70,6 +60,10 @@ const Scoring = () => {
   };
   const numberJudge = (input) => {
     return isNaN(input);
+  };
+  const handleResultConfirm = () => {
+    //modify after (repel insufficient form input)
+    console.log(selectedUsers, points);
   };
   return (
     <>
@@ -93,8 +87,8 @@ const Scoring = () => {
                       onChange={(e) => handlePlayerChange(e, index)}
                     >
                       <option value="" />
-                      {users.map((user, uidx) => (
-                        <option key={uidx} value={user.id}>
+                      {users.map((user) => (
+                        <option key={user.uid} value={user.uid}>
                           {user.name}
                         </option>
                       ))}
@@ -121,6 +115,7 @@ const Scoring = () => {
           </Grid>
         </div>
       ))}
+      <Button onClick={handleResultConfirm}>Confirm</Button>
       <div>
         {points.map((point, index) => (
           <div key={index}>

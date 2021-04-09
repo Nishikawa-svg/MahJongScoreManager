@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { AuthContext } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const initialFormInput = {
-  communityId: "",
+  email: "",
   password: "",
 };
 
@@ -11,18 +12,18 @@ const Login = () => {
   const [formInput, setFormInput] = useState(initialFormInput);
   const { login } = useContext(AuthContext);
   const handleLogin = () => {
-    login(formInput.communityId, formInput.password);
+    login(formInput.email, formInput.password);
   };
 
   return (
     <>
       <h1>Login form</h1>
       <div>
-        Community ID :{" "}
+        email :{" "}
         <TextField
           value={formInput.communityId}
           onChange={(e) =>
-            setFormInput({ ...formInput, communityId: e.target.value })
+            setFormInput({ ...formInput, email: e.target.value })
           }
         />
       </div>
@@ -36,6 +37,7 @@ const Login = () => {
         />
       </div>
       <Button onClick={handleLogin}>send</Button>
+      <Link to="/signup">Go to sign up</Link>
     </>
   );
 };

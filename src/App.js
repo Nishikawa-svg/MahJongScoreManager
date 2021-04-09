@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Scoring from "./pages/Scoring";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Users from "./pages/Users";
 import Ranking from "./pages/Ranking";
@@ -68,9 +69,14 @@ const PrivateRoute = () => {
         <>
           <PublicLayout />
           <div className={classes.publicMainContainer}>
-            <Route path="/">
-              <Login />
-            </Route>
+            <Switch>
+              <Route path="/signup">
+                <SignUp />
+              </Route>
+              <Route path="/">
+                <Login />
+              </Route>
+            </Switch>
           </div>
         </>
       )}
