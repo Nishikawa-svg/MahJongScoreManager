@@ -6,10 +6,11 @@ import {
   InputLabel,
   Select,
   TextField,
-  Button,
 } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
 import ConfirmResultDialog from "../components/ConfirmResultDialog";
+
+import { calculatePoints } from "../utils/CalculatePoints";
 
 const useStyles = makeStyles((theme) => ({
   directionContainer: {
@@ -35,36 +36,36 @@ const useStyles = makeStyles((theme) => ({
 const directions = ["East", "South", "West", "North"];
 
 const initialPlayers = ["", "", "", ""];
-const initialPoints = ["", "", "", ""];
+const initialScores = ["", "", "", ""];
 
 const Scoring = () => {
-  const { users } = useContext(CommunityContext);
+  const { users, rules } = useContext(CommunityContext);
   const [players, setPlayers] = useState(initialPlayers);
-
-  const [points, setPoints] = useState(initialPoints);
+  const [scores, setScores] = useState(initialScores);
+  const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
   const handlePlayerChange = (e, index) => {
     let newPlayers = [...players];
-    if (e.target.value === "") {
-      newPlayers[index] = "";
-    } else {
-      newPlayers[index] = e.target.value;
-    }
+    if (e.target.value === "") newPlayers[index] = "";
+    else newPlayers[index] = e.target.value;
     setPlayers(newPlayers);
   };
-  const handlePointChange = (e, index) => {
-    let newPoints = [...points];
-    newPoints[index] = e.target.value;
-    // console.log(newPoints);
-
-    setPoints(newPoints);
+  const handleScoreChange = (e, index) => {
+    let newScores = [...scores];
+    newScores[index] = e.target.value;
+    setScores(newScores);
   };
   const numberJudge = (input) => {
     return isNaN(input);
   };
-  const handleResultConfirm = () => {
-    //modify after (repel insufficient form input)//
-    console.log(players, points);
+  const handleConfirm = () => {
+    const { valid, errorMessage } = calculatePoints(players, scores, rules);
+    console.log(valid, errorMessage);
+    if (!valid) alert(errorMessage);
+    if (valid) setModalOpen(true);
+  };
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
   return (
     <>
@@ -103,11 +104,11 @@ const Scoring = () => {
                 <Grid item xs={11}>
                   <TextField
                     className={classes.inputForm}
-                    label="point"
+                    label="score"
                     type="number"
-                    value={points[index]}
-                    error={numberJudge(points[index])}
-                    onChange={(e) => handlePointChange(e, index)}
+                    value={scores[index]}
+                    error={numberJudge(scores[index])}
+                    onChange={(e) => handleScoreChange(e, index)}
                     variant="outlined"
                   />
                 </Grid>
@@ -116,12 +117,18 @@ const Scoring = () => {
           </Grid>
         </div>
       ))}
-      <Button onClick={handleResultConfirm}>Confirm</Button>
-      <ConfirmResultDialog players={players} points={points} />
+      <ConfirmResultDialog
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        handleConfirm={handleConfirm}
+        handleModalClose={handleModalClose}
+        players={players}
+        scores={scores}
+      />
       <div>
-        {points.map((point, index) => (
+        {scores.map((score, index) => (
           <div key={index}>
-            point{index} : {point}
+            score{index} : {score}
           </div>
         ))}
         {players.map((user, index) => (
