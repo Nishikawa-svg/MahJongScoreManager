@@ -109,8 +109,8 @@ const getPointTransaction = (rank, rankPoints) => {
   return pointTransaction;
 };
 
-export const calculatePoints = (players, scores, rules) => {
-  console.log("calculate points", players, scores, rules);
+export const calculatePoints = (players, scores, rules, scorer) => {
+  console.log("calculate points", players, scores, rules, scorer);
 
   //error check
   let valid = true;
@@ -147,6 +147,7 @@ export const calculatePoints = (players, scores, rules) => {
     if (parseInt(scores[i]) !== Number(scores[i])) {
       valid = false;
       errorMessage = "score must be an integer";
+      return { valid, errorMessage };
     }
     points[i] = parseInt(scores[i]);
     totalScore += points[i];
@@ -156,11 +157,13 @@ export const calculatePoints = (players, scores, rules) => {
     errorMessage = `all player's score sum must be ${rules.score_start * 4}`;
     return { valid, errorMessage };
   }
+  //end of error check
 
   //get ranking
   const rank = getRank([...points], rules.same_rank);
   const rankOrderByDerection = getRank([...points], false);
   console.log(rank);
+  //end of get ranking
 
   //edge of score calculation
   for (let i = 0; i < 4; i++) {
@@ -192,6 +195,7 @@ export const calculatePoints = (players, scores, rules) => {
     }
   }
   console.log("after edge calc point", points);
+  //end of edge of score calculation
 
   //calc plane points
   //25000 - 30000
@@ -199,6 +203,7 @@ export const calculatePoints = (players, scores, rules) => {
     points[i] -= Math.round(rules.score_base / 1000);
   }
   console.log("plane point", points);
+  //end of clac plane points
 
   //add rank point (uma)
   if (rules.uma) {
@@ -239,6 +244,7 @@ export const calculatePoints = (players, scores, rules) => {
       points[i] += pointTransaction[rankOrderByDerection[i] - 1];
     }
   }
+  //end of add rank point (uma)
 
   //top adjustment
   if (rules.top_adjustment) {
@@ -250,7 +256,37 @@ export const calculatePoints = (players, scores, rules) => {
     }
     points[first] = -sum;
   }
+  //end of top adjustment
 
+  const newGameRecode = {
+    scorer: scorer,
+    east: {
+      point: points[0],
+      score: parseInt(scores[0]),
+      rank: rank[0],
+      uid: players[0],
+    },
+    south: {
+      point: points[1],
+      score: parseInt(scores[1]),
+      rank: rank[1],
+      uid: players[1],
+    },
+    west: {
+      point: points[2],
+      score: parseInt(scores[2]),
+      rank: rank[2],
+      uid: players[2],
+    },
+    north: {
+      point: points[3],
+      score: parseInt(scores[3]),
+      rank: rank[3],
+      uid: players[3],
+    },
+  };
+
+  console.log(newGameRecode);
   console.log(points);
-  return { valid, errorMessage };
+  return { valid, errorMessage, newGameRecode };
 };

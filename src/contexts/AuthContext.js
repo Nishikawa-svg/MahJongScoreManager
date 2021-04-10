@@ -47,14 +47,24 @@ const AuthProvider = (props) => {
     history.push("/");
   };
 
-  const signUp = (email, password) => {
+  const signUp = (username, email, password) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         console.log("sign up success");
         setIsAuth(true);
-        history.push("/");
+        firebase
+          .auth()
+          .currentUser.updateProfile({
+            displayName: username,
+          })
+          .then(() => {
+            console.log("username updated");
+            setLoginUser({ uid: "", name: username });
+            history.push("/");
+          })
+          .catch((error) => console.log("username update failer", error));
       })
       .catch((error) => console.log("sign up failed", error));
   };

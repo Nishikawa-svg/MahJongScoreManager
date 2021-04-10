@@ -4,17 +4,26 @@ import { Button, TextField } from "@material-ui/core";
 import { AuthContext } from "../contexts/AuthContext";
 
 const SignUp = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signUp } = useContext(AuthContext);
   const handleSignUp = () => {
-    signUp(email, password);
+    signUp(username, email, password);
   };
   return (
     <>
       <Link to="/">go to log in page</Link>
       <div>Sign Up</div>
       <br />
+      <div>
+        username :{" "}
+        <TextField
+          variant="outlined"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
       <div>
         email :{" "}
         <TextField

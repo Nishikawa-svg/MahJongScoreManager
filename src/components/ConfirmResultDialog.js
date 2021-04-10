@@ -12,6 +12,7 @@ const ConfirmResultDialog = ({
   modalOpen,
   handleModalClose,
   handleConfirm,
+  handleRecodeGameResult,
   players,
   scores,
 }) => {
@@ -37,7 +38,7 @@ const ConfirmResultDialog = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleModalClose}>modify</Button>
-          <Button onClick={handleModalClose}>confirm</Button>
+          <Button onClick={handleRecodeGameResult}>confirm</Button>
         </DialogActions>
       </Dialog>
     </>

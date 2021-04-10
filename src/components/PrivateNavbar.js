@@ -24,7 +24,7 @@ const PrivateNavbar = ({ openSidebar, closeSideBar }) => {
   return (
     <AppBar className={classes.appBar}>
       <Toolbar>
-        <div>{loginUser.uid}</div>
+        <div>{loginUser.name}</div>
         <div className={classes.appTitle}>Mahjong Score Manager</div>
         <Hidden mdUp>
           <IconButton color="inherit" onClick={openSidebar}>

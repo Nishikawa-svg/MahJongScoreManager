@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
+import { AuthContext } from "../contexts/AuthContext";
 import ConfirmResultDialog from "../components/ConfirmResultDialog";
 
 import { calculatePoints } from "../utils/CalculatePoints";
@@ -39,9 +40,11 @@ const initialPlayers = ["", "", "", ""];
 const initialScores = ["", "", "", ""];
 
 const Scoring = () => {
-  const { users, rules } = useContext(CommunityContext);
+  const { users, rules, addGameResult } = useContext(CommunityContext);
+  const { loginUser } = useContext(AuthContext);
   const [players, setPlayers] = useState(initialPlayers);
   const [scores, setScores] = useState(initialScores);
+  const [gameRecode, setGameRecode] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
   const handlePlayerChange = (e, index) => {
@@ -59,13 +62,28 @@ const Scoring = () => {
     return isNaN(input);
   };
   const handleConfirm = () => {
-    const { valid, errorMessage } = calculatePoints(players, scores, rules);
-    console.log(valid, errorMessage);
+    const scorer = loginUser.uid;
+    const { valid, errorMessage, newGameRecode } = calculatePoints(
+      players,
+      scores,
+      rules,
+      scorer
+    );
+    console.log(valid, errorMessage, newGameRecode);
     if (!valid) alert(errorMessage);
-    if (valid) setModalOpen(true);
+    if (valid) {
+      setGameRecode(newGameRecode);
+      setModalOpen(true);
+    }
   };
   const handleModalClose = () => {
     setModalOpen(false);
+  };
+  const handleRecodeGameResult = () => {
+    addGameResult(gameRecode);
+    setModalOpen(false);
+    setPlayers(initialPlayers);
+    setScores(initialScores);
   };
   return (
     <>
@@ -122,6 +140,7 @@ const Scoring = () => {
         setModalOpen={setModalOpen}
         handleConfirm={handleConfirm}
         handleModalClose={handleModalClose}
+        handleRecodeGameResult={handleRecodeGameResult}
         players={players}
         scores={scores}
       />

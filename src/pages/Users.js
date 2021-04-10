@@ -22,7 +22,7 @@ const Users = () => {
 
 const initialNewUser = { name: "" };
 const AddUser = () => {
-  const [newUser, setNewUser] = useState({ initialNewUser });
+  const [newUser, setNewUser] = useState(initialNewUser);
   const { addNewUser } = useContext(CommunityContext);
   const handleAddNewUser = () => {
     addNewUser(newUser);
