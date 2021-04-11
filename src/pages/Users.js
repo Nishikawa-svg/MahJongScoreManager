@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const { users } = useContext(CommunityContext);
@@ -11,7 +12,9 @@ const Users = () => {
       <div>User List</div>
       <ul>
         {Object.keys(users).map((key) => (
-          <li key={key}>{users[key].name}</li>
+          <li key={key}>
+            <Link to={`/users/${key}`}>{users[key].name}</Link>
+          </li>
         ))}
       </ul>
       <hr />

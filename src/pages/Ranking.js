@@ -1,14 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { CommunityContext } from "../contexts/CommunityContext";
-import { rearrangeRanking } from "../utils/RearrangeRanking";
 
 const Ranking = () => {
-  const { result, users } = useContext(CommunityContext);
-  const [rankings, setRankings] = useState([]);
-  useEffect(() => {
-    setRankings(rearrangeRanking(result));
-  }, [result]);
-  console.log(rankings);
+  const { users, rankings } = useContext(CommunityContext);
   return (
     <>
       <div>Ranking</div>

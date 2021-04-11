@@ -2,6 +2,7 @@ import { useState, createContext, useEffect, useContext } from "react";
 import firebase, { db } from "../Firebase";
 import { AuthContext } from "./AuthContext";
 import { calculateResult } from "../utils/CalculateResult";
+import { rearrangeRanking } from "../utils/RearrangeRanking";
 
 const myCommunityId = "aPd6xJZ1EewXHXq3TN4Q";
 export const CommunityContext = createContext();
@@ -11,7 +12,13 @@ const CommunityProvider = (props) => {
   const [rules, setRules] = useState();
   const [history, setHistory] = useState([]);
   const [result, setResult] = useState({});
+  const [rankings, setRankings] = useState({});
   const { isAuth } = useContext(AuthContext);
+
+  useEffect(() => {
+    setRankings(rearrangeRanking(result));
+  }, [result]);
+
   useEffect(() => {
     let unsubscribeGetUsers = () => {};
     let unsubscribeGetHistory = () => {};
@@ -161,6 +168,7 @@ const CommunityProvider = (props) => {
         rules: rules,
         history: history,
         result: result,
+        rankings: rankings,
         addNewUser: addNewUser,
         addGameResult: addGameResult,
       }}

@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Users from "./pages/Users";
+import User from "./pages/User";
 import Ranking from "./pages/Ranking";
 import History from "./pages/History";
 import Providers from "./contexts/Contexts";
@@ -49,6 +50,9 @@ const PrivateRoute = () => {
             <Switch>
               <Route path="/history">
                 <History />
+              </Route>
+              <Route path={`/users/:uid`}>
+                <User />
               </Route>
               <Route path="/users">
                 <Users />

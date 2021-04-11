@@ -161,44 +161,6 @@ const createNewResult = (result, gameRecode) => {
       ) / 100;
   });
 
-  // for (let i = 0; i < history.length; i++) {
-  //   let game = history[i];
-  //   // newResult[game.east.uid].total_game
-  //   directions.forEach((direction) => {
-  //     if (game[direction].uid in newResult) {
-  //       // console.log("exist");
-  //     } else {
-  //       // console.log("not exist");
-  //       newResult[game[direction].uid] = makeNewElement();
-  //     }
-  //     let lef = newResult[game[direction].uid];
-  //     lef.total_game++;
-  //     lef.total_point += game[direction].point;
-  //     lef.average_point = lef.total_point / lef.total_game;
-
-  //     switch (game[direction].rank) {
-  //       case 1:
-  //         lef.rank_detail.first.total++;
-  //         lef.rank_detail.first[direction]++;
-  //         break;
-  //       case 2:
-  //         lef.rank_detail.second.total++;
-  //         lef.rank_detail.second[direction]++;
-  //         break;
-  //       case 3:
-  //         lef.rank_detail.third.total++;
-  //         lef.rank_detail.third[direction]++;
-  //         break;
-  //       case 4:
-  //         lef.rank_detail.fourth.total++;
-  //         lef.rank_detail.fourth[direction]++;
-  //         break;
-  //       default:
-  //         console.log("Error rank doesn't match");
-  //     }
-  //   });
-  // }
-
   //calc win_rate and average_order
   let totalGameList = [],
     totalPointList = [],
@@ -207,19 +169,6 @@ const createNewResult = (result, gameRecode) => {
     winRateList = [];
   Object.keys(newResult).forEach((key) => {
     let personRef = newResult[key];
-    //let rankRef = newResult[key].rank_detail;
-    // personRef.average_order =
-    //   Math.round(
-    //     ((rankRef.first.total * 1 +
-    //       rankRef.second.total * 2 +
-    //       rankRef.third.total * 3 +
-    //       rankRef.fourth.total * 4) /
-    //       personRef.total_game) *
-    //       100
-    //   ) / 100;
-
-    // personRef.win_rate =Math.round((
-    //   (rankRef.first.total + rankRef.second.total) / personRef.total_game)*100)/100;
     totalGameList.push({ value: personRef.total_game, uid: key });
     totalPointList.push({ value: personRef.total_point, uid: key });
     averageOrderList.push({ value: personRef.average_order, uid: key });
@@ -282,7 +231,6 @@ const getSomeRank = (list, greater) => {
 };
 
 export const calculateResult = (result, gameRecode) => {
-  console.log(result, gameRecode);
-  // return createSampleResult(history);
+  //console.log(result, gameRecode);
   return createNewResult(result, gameRecode);
 };
