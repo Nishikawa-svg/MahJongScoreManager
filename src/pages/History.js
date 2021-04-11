@@ -3,10 +3,15 @@ import { CommunityContext } from "../contexts/CommunityContext";
 
 const History = () => {
   const { history, users } = useContext(CommunityContext);
+  const getDate = (seconds) => {
+    let date = new Date(seconds * 1000);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  };
+
   return (
     <>
       <div>History</div>
-      {history.map((item) => (
+      {[...history].reverse().map((item) => (
         <div key={item.created_at}>
           <div>{item.game_number}</div>
           <ul>
@@ -26,8 +31,10 @@ const History = () => {
               North : {users[item.north.uid].name}, {item.north.point},{" "}
               {item.north.score}
             </li>
-            scored by {item.scorer}
           </ul>
+          scorer : {item.scorer}
+          <br />
+          timestamp : {getDate(item.created_at.seconds)}
         </div>
       ))}
     </>

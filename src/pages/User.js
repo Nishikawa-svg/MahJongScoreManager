@@ -4,10 +4,10 @@ import { CommunityContext } from "../contexts/CommunityContext";
 import { Link } from "react-router-dom";
 
 const User = () => {
-  const { users, result } = useContext(CommunityContext);
+  const { users, result, privateHistory } = useContext(CommunityContext);
   const { uid } = useParams();
 
-  if (result[uid] && users[uid]) {
+  if (result[uid] && users[uid] && privateHistory[uid]) {
     const ref = result[uid];
     const privateItems = (
       <ul>
@@ -28,6 +28,16 @@ const User = () => {
         </li>
       </ul>
     );
+
+    const privateHistoryItem = (
+      <ul>
+        {privateHistory[uid].games.map((item, index) => (
+          <div key={index}>
+            game_id : {item.game_id}, point : {item.point}
+          </div>
+        ))}
+      </ul>
+    );
     return (
       <>
         <Link to="/users">back to users page</Link>
@@ -35,6 +45,7 @@ const User = () => {
         <div>uid : {uid}</div>
         <div>{users[uid].name}'s page</div>
         <div>{privateItems}</div>
+        <div>{privateHistoryItem}</div>
       </>
     );
   } else
@@ -43,7 +54,6 @@ const User = () => {
         <Link to="/users">back to users page</Link>
         <div>User</div>
         <div>uid : {uid}</div>
-        <div>{users[uid].name}'s page</div>
         <div>no data</div>
       </>
     );
