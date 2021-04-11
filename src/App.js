@@ -15,6 +15,9 @@ import Providers from "./contexts/Contexts";
 import { AuthContext } from "./contexts/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
+  app: {
+    textAlign: "center",
+  },
   privateMainContainer: {
     paddingTop: 64,
     [theme.breakpoints.up("md")]: {
@@ -27,13 +30,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
+  const classes = useStyles();
   return (
     <>
-      <Router>
-        <Providers>
-          <PrivateRoute />
-        </Providers>
-      </Router>
+      <div className={classes.app}>
+        <Router>
+          <Providers>
+            <PrivateRoute />
+          </Providers>
+        </Router>
+      </div>
     </>
   );
 };

@@ -34,12 +34,15 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "blue",
     },
-    linkContanier: {
-      marginBottom: 5,
-    },
-    signinLink: {
+  },
+  linkContanier: {
+    marginBottom: 5,
+  },
+  signinLink: {
+    textDecoration: "none",
+    color: "blue",
+    "&:hover": {
       textDecoration: "underline",
-      color: "blue",
     },
   },
 }));
@@ -104,6 +107,7 @@ const SignUp = () => {
                   </Grid>
                   <Grid item>
                     <TextField
+                      type="password"
                       className={classes.formInputBox}
                       variant="outlined"
                       fullWidth
@@ -116,6 +120,7 @@ const SignUp = () => {
                   </Grid>
                   <Grid item>
                     <TextField
+                      type="password"
                       className={classes.formInputBox}
                       variant="outlined"
                       fullWidth

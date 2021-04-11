@@ -44,7 +44,7 @@ export const rearrangeRanking = (result) => {
   });
   let rankingList = {
     totalGameRanking: sortRanking(totalGameRanking),
-    toalPointRanking: sortRanking(totalPointRanking),
+    totalPointRanking: sortRanking(totalPointRanking),
     averagePointRanking: sortRanking(averagePointRanking),
     averageOrderRanking: sortRanking(averageOrderRanking),
     winRateRanking: sortRanking(winRateRanking),

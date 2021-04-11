@@ -9,7 +9,7 @@ const myCommunityId = "aPd6xJZ1EewXHXq3TN4Q";
 export const CommunityContext = createContext();
 
 const CommunityProvider = (props) => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState({});
   const [rules, setRules] = useState();
   const [history, setHistory] = useState([]);
   const [result, setResult] = useState({});
