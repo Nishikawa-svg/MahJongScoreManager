@@ -107,9 +107,9 @@ const Scoring = () => {
                       onChange={(e) => handlePlayerChange(e, index)}
                     >
                       <option value="" />
-                      {users.map((user) => (
-                        <option key={user.uid} value={user.uid}>
-                          {user.name}
+                      {Object.keys(users).map((key) => (
+                        <option key={key} value={key}>
+                          {users[key].name}
                         </option>
                       ))}
                     </Select>

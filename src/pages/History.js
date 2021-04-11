@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { CommunityContext } from "../contexts/CommunityContext";
 
 const History = () => {
-  const { history } = useContext(CommunityContext);
+  const { history, users } = useContext(CommunityContext);
   return (
     <>
       <div>History</div>
@@ -11,16 +11,16 @@ const History = () => {
           <div>{item.game_number}</div>
           <ul>
             <li>
-              East : {item.east.uid}, {item.east.point}
+              East : {users[item.east.uid].name}, {item.east.point}
             </li>
             <li>
-              South : {item.south.uid}, {item.south.point}
+              South : {users[item.south.uid].name}, {item.south.point}
             </li>
             <li>
-              West : {item.west.uid}, {item.west.point}
+              West : {users[item.west.uid].name}, {item.west.point}
             </li>
             <li>
-              North : {item.north.uid}, {item.north.point}
+              North : {users[item.north.uid].name}, {item.north.point}
             </li>
           </ul>
         </div>

@@ -121,7 +121,8 @@ const createNewResult = (result, gameRecode) => {
     let ref = newResult[gameRecode[direction].uid];
     ref.total_game++;
     ref.total_point += gameRecode[direction].point;
-    ref.average_point = ref.total_point / ref.total_game;
+    ref.average_point =
+      Math.round((ref.total_point / ref.total_game) * 100) / 100;
 
     switch (gameRecode[direction].rank) {
       case 1:
@@ -143,6 +144,21 @@ const createNewResult = (result, gameRecode) => {
       default:
         console.log("Error rank doesn't match");
     }
+
+    let rankRef = ref.rank_detail;
+    ref.average_order =
+      Math.round(
+        ((rankRef.first.total * 1 +
+          rankRef.second.total * 2 +
+          rankRef.third.total * 3 +
+          rankRef.fourth.total * 4) /
+          ref.total_game) *
+          100
+      ) / 100;
+    ref.win_rate =
+      Math.round(
+        ((rankRef.first.total + rankRef.second.total) / ref.total_game) * 100
+      ) / 100;
   });
 
   // for (let i = 0; i < history.length; i++) {
@@ -191,15 +207,19 @@ const createNewResult = (result, gameRecode) => {
     winRateList = [];
   Object.keys(newResult).forEach((key) => {
     let personRef = newResult[key];
-    let rankRef = newResult[key].rank_detail;
-    personRef.average_order =
-      (rankRef.first.total * 1 +
-        rankRef.second.total * 2 +
-        rankRef.third.total * 3 +
-        rankRef.fourth.total * 4) /
-      personRef.total_game;
-    personRef.win_rate =
-      (rankRef.first.total + rankRef.second.total) / personRef.total_game;
+    //let rankRef = newResult[key].rank_detail;
+    // personRef.average_order =
+    //   Math.round(
+    //     ((rankRef.first.total * 1 +
+    //       rankRef.second.total * 2 +
+    //       rankRef.third.total * 3 +
+    //       rankRef.fourth.total * 4) /
+    //       personRef.total_game) *
+    //       100
+    //   ) / 100;
+
+    // personRef.win_rate =Math.round((
+    //   (rankRef.first.total + rankRef.second.total) / personRef.total_game)*100)/100;
     totalGameList.push({ value: personRef.total_game, uid: key });
     totalPointList.push({ value: personRef.total_point, uid: key });
     averageOrderList.push({ value: personRef.average_order, uid: key });

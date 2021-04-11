@@ -32,28 +32,6 @@ const CommunityProvider = (props) => {
     };
   }, [isAuth]);
 
-  const getUsers = () => {
-    console.log("get user");
-    db.collection("communities")
-      .doc(myCommunityId)
-      .collection("users")
-      .get()
-      .then((docs) => {
-        let getUsersList = [];
-        docs.forEach((doc) => {
-          // console.log(doc.id, " => ", doc.data());
-          const userInfo = {
-            name: doc.data().name,
-            created_at: doc.data().created_at,
-            uid: doc.id,
-          };
-          getUsersList.push(userInfo);
-        });
-        setUsers(getUsersList);
-      })
-      .catch((error) => console.log("Error getting documents : users", error));
-  };
-
   const onGetUsers = () => {
     console.log("on get user");
     return db
@@ -61,14 +39,20 @@ const CommunityProvider = (props) => {
       .doc(myCommunityId)
       .collection("users")
       .onSnapshot((docs) => {
-        let getUserList = [];
+        docs.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            console.log("on Get User => Added", change.doc.data());
+          }
+          if (change.type === "modified") {
+            console.log("on Get User => Modified", change.doc.data());
+          }
+          if (change.type === "removed") {
+            console.log("on Get User => Removed", change.doc.data());
+          }
+        });
+        let getUserList = {};
         docs.forEach((doc) => {
-          const userInfo = {
-            name: doc.data().name,
-            created_at: doc.data().created_at,
-            uid: doc.id,
-          };
-          getUserList.push(userInfo);
+          getUserList[doc.id] = doc.data();
         });
         setUsers(getUserList);
       });
@@ -99,7 +83,6 @@ const CommunityProvider = (props) => {
         console.log("result change");
         let getResultList = {};
         docs.forEach((doc) => {
-          //          getResultList.push(doc.data());
           getResultList[doc.id] = doc.data();
         });
         setResult(getResultList);
@@ -133,7 +116,6 @@ const CommunityProvider = (props) => {
         created_at: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {
-        // getUsers();
         console.log("new user added");
       })
       .catch((error) => console.log("add new user Error : ", error));
@@ -178,6 +160,7 @@ const CommunityProvider = (props) => {
         users: users,
         rules: rules,
         history: history,
+        result: result,
         addNewUser: addNewUser,
         addGameResult: addGameResult,
       }}

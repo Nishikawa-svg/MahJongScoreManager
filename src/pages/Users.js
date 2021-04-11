@@ -10,8 +10,8 @@ const Users = () => {
       <br />
       <div>User List</div>
       <ul>
-        {users.map((user) => (
-          <li key={user.uid}>{user.name}</li>
+        {Object.keys(users).map((key) => (
+          <li key={key}>{users[key].name}</li>
         ))}
       </ul>
       <hr />
