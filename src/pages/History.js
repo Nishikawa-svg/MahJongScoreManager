@@ -12,6 +12,7 @@ import {
   makeStyles,
   Paper,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
@@ -22,18 +23,19 @@ const useStyles = makeStyles((theme) => ({
     margin: "0px 5px",
   },
   tableContainer: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       maxHeight: 440,
     },
   },
   tableHeadRow: {},
   tableBodyRow: {
     "&:nth-of-type(odd)": {
-      backgroundColor: "#dddddd",
+      backgroundColor: "#eeeeee",
     },
   },
   tableHeadCell: {
     color: "#ffffff",
+    fontWeight: "bold",
     backgroundColor: "#333333",
     padding: "15px 0px",
   },
@@ -44,8 +46,12 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffffff",
     backgroundColor: "#888888",
   },
+  historyDetailLink: {
+    textDecoration: "none",
+    color: "blue",
+  },
 }));
-//order by directions
+
 const HistoryTable = ({ history, users }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -91,7 +97,12 @@ const HistoryTable = ({ history, users }) => {
                   className={classes.tableBodyRow}
                 >
                   <TableCell className={classes.tableBodyCell} align="center">
-                    {item.game_number}
+                    <Link
+                      to={`/history/${item.game_number}`}
+                      className={classes.historyDetailLink}
+                    >
+                      {item.game_number}
+                    </Link>
                   </TableCell>
                   <TableCell className={classes.tableBodyCell} align="center">
                     <div>{users[item.east.uid].name}</div>
@@ -128,15 +139,9 @@ const HistoryTable = ({ history, users }) => {
   );
 };
 
-//order by rank
-
 const History = () => {
   const { history, users } = useContext(CommunityContext);
   const classes = useStyles();
-  const getDate = (seconds) => {
-    let date = new Date(seconds * 1000);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-  };
 
   return (
     <>

@@ -13,6 +13,7 @@ import Ranking from "./pages/Ranking";
 import History from "./pages/History";
 import Providers from "./contexts/Contexts";
 import { AuthContext } from "./contexts/AuthContext";
+import HistoryDetail from "./pages/HistoryDetail";
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -20,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
   privateMainContainer: {
     paddingTop: 64,
-    height: "100vh",
+    // height: "100vh",
     [theme.breakpoints.up("md")]: {
       paddingLeft: 240,
     },
   },
   publicMainContainer: {
-    height: "100vh",
+    // height: "100vh",
     paddingTop: 64,
   },
 }));
@@ -56,6 +57,9 @@ const PrivateRoute = () => {
           <PrivateLayout />
           <div className={classes.privateMainContainer}>
             <Switch>
+              <Route path="/history/:historyId">
+                <HistoryDetail />
+              </Route>
               <Route path="/history">
                 <History />
               </Route>
