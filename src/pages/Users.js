@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
-    fontSize: 30,
-    margin: "20px 0px",
+    fontSize: 24,
+    margin: "10px 0px",
   },
 
   personBox: {
@@ -40,7 +40,6 @@ const Users = () => {
   return (
     <>
       <div className={classes.pageTitle}>Users</div>
-      <div>User List</div>
       <Grid container justify="center">
         <Grid item xs={12} sm={6}>
           {Object.keys(users).map((key) => (

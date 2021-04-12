@@ -112,57 +112,100 @@ const getPointTransaction = (rank, rankPoints) => {
 export const calculatePoints = (players, scores, rules, scorer) => {
   console.log("calculate points", players, scores, rules, scorer);
 
-  //error check
-  let valid = true;
-  let errorMessage = "nothing wrong";
   let points = [0, 0, 0, 0];
   let totalScore = 0;
+  let newGameRecode = {};
+
+  //error check
+  let isValid = true;
+  let playerErrorCheck = [false, false, false, false];
+  let scoreErrorCheck = [false, false, false, false];
+  let playerErrorMessage = "";
+  let scoreErrorMessage = "";
+
   for (let i = 0; i < 4; i++) {
     if (players[i] === "") {
-      valid = false;
-      errorMessage = "please select all players";
-      return { valid, errorMessage };
+      isValid = false;
+      playerErrorCheck[i] = true;
+      playerErrorMessage = "please select all players";
     }
     if (scores[i] === "") {
-      valid = false;
-      errorMessage = "please enter all player's score";
-      return { valid, errorMessage };
+      isValid = false;
+      scoreErrorCheck[i] = true;
+      scoreErrorMessage = "please enter all player's score";
     }
   }
+  if (!isValid)
+    return {
+      isValid,
+      playerErrorCheck,
+      scoreErrorCheck,
+      playerErrorMessage,
+      scoreErrorMessage,
+      newGameRecode,
+    };
   for (let i = 0; i < 4; i++) {
     for (let j = i + 1; j < 4; j++) {
       if (players[i] === players[j]) {
-        valid = false;
-        errorMessage = "players are duplicated";
-        return { valid, errorMessage };
+        isValid = false;
+        playerErrorMessage = "players are duplicated";
+        playerErrorCheck[i] = true;
+        playerErrorCheck[j] = true;
       }
     }
   }
+  if (!isValid)
+    return {
+      isValid,
+      playerErrorCheck,
+      scoreErrorCheck,
+      playerErrorMessage,
+      scoreErrorMessage,
+      newGameRecode,
+    };
   for (let i = 0; i < 4; i++) {
     if (isNaN(parseInt(scores[i]))) {
-      valid = false;
-      errorMessage = "score value is not a number";
-      return { valid, errorMessage };
+      isValid = false;
+      scoreErrorMessage = "score must be an integer";
     }
     if (parseInt(scores[i]) !== Number(scores[i])) {
-      valid = false;
-      errorMessage = "score must be an integer";
-      return { valid, errorMessage };
+      isValid = false;
+      scoreErrorMessage = "score must be an integer";
     }
     points[i] = parseInt(scores[i]);
     totalScore += points[i];
   }
+  if (!isValid)
+    return {
+      isValid,
+      playerErrorCheck,
+      scoreErrorCheck,
+      playerErrorMessage,
+      scoreErrorMessage,
+      newGameRecode,
+    };
   if (totalScore !== rules.score_start * 4) {
-    valid = false;
-    errorMessage = `all player's score sum must be ${rules.score_start * 4}`;
-    return { valid, errorMessage };
+    isValid = false;
+    for (let i = 0; i < 4; i++) scoreErrorCheck[i] = true;
+    scoreErrorMessage = `all player's score sum must be ${
+      rules.score_start * 4
+    }`;
   }
+  if (!isValid)
+    return {
+      isValid,
+      playerErrorCheck,
+      scoreErrorCheck,
+      playerErrorMessage,
+      scoreErrorMessage,
+      newGameRecode,
+    };
   //end of error check
 
   //get ranking
   const rank = getRank([...points], rules.same_rank);
   const rankOrderByDerection = getRank([...points], false);
-  console.log(rank);
+  //console.log(rank);
   //end of get ranking
 
   //edge of score calculation
@@ -194,7 +237,7 @@ export const calculatePoints = (players, scores, rules, scorer) => {
         console.log("Error : invalid option at rules.socre_edge_calc");
     }
   }
-  console.log("after edge calc point", points);
+  //console.log("after edge calc point", points);
   //end of edge of score calculation
 
   //calc plane points
@@ -202,7 +245,7 @@ export const calculatePoints = (players, scores, rules, scorer) => {
   for (let i = 0; i < 4; i++) {
     points[i] -= Math.round(rules.score_base / 1000);
   }
-  console.log("plane point", points);
+  //console.log("plane point", points);
   //end of clac plane points
 
   //add rank point (uma)
@@ -235,10 +278,10 @@ export const calculatePoints = (players, scores, rules, scorer) => {
         ((rules.score_base - rules.score_start) * 4) / 1000
       );
     }
-    console.log("rank points", rankPoints);
+    //console.log("rank points", rankPoints);
 
     const pointTransaction = getPointTransaction(rank, rankPoints);
-    console.log("point transaction", pointTransaction);
+    //console.log("point transaction", pointTransaction);
 
     for (let i = 0; i < 4; i++) {
       points[i] += pointTransaction[rankOrderByDerection[i] - 1];
@@ -258,7 +301,7 @@ export const calculatePoints = (players, scores, rules, scorer) => {
   }
   //end of top adjustment
 
-  const newGameRecode = {
+  newGameRecode = {
     scorer: scorer,
     east: {
       point: points[0],
@@ -286,7 +329,14 @@ export const calculatePoints = (players, scores, rules, scorer) => {
     },
   };
 
-  console.log(newGameRecode);
-  console.log(points);
-  return { valid, errorMessage, newGameRecode };
+  //console.log(newGameRecode);
+  //console.log(points);
+  return {
+    isValid,
+    playerErrorCheck,
+    scoreErrorCheck,
+    playerErrorMessage,
+    scoreErrorMessage,
+    newGameRecode,
+  };
 };

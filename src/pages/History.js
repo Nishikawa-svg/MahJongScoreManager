@@ -16,8 +16,8 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
-    fontSize: 30,
-    margin: "20px 0px",
+    fontSize: 24,
+    margin: "10px 0px",
   },
   tablePaper: {
     margin: "0px 5px",
@@ -51,10 +51,11 @@ const useStyles = makeStyles((theme) => ({
     color: "blue",
   },
 }));
+const pageRowOptionList = [5, 10, 25, 50, 100];
 
 const HistoryTable = ({ history, users }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(pageRowOptionList[0]);
 
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
@@ -128,7 +129,7 @@ const HistoryTable = ({ history, users }) => {
       <TablePagination
         className={classes.tablePagenation}
         component="div"
-        rowsPerPageOptions={[5, 10]}
+        rowsPerPageOptions={pageRowOptionList}
         count={history.length}
         rowsPerPage={rowsPerPage}
         page={page}

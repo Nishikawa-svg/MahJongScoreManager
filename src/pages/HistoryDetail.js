@@ -15,8 +15,8 @@ import { CommunityContext } from "../contexts/CommunityContext";
 
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
-    fontSize: 30,
-    margin: "20px 0px",
+    fontSize: 24,
+    margin: "10px 0px",
   },
   historyLink: {
     textDecoration: "none",
@@ -33,11 +33,16 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHeadCell: {
     color: "#ffffff",
+    fontWeight: "bold",
     backgroundColor: "#333333",
     padding: "15px 0px",
   },
   tableBodyCell: {
     padding: "15px 0px",
+  },
+  tableBodySeatCell: {
+    padding: "15px 0px",
+    fontWeight: "bold",
   },
 
   anotherRoundLink: {
@@ -63,10 +68,10 @@ const HistoryDetailTable = ({ history, users }) => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.tableHeadCell} align="center">
-                  player
+                  seat
                 </TableCell>
                 <TableCell className={classes.tableHeadCell} align="center">
-                  seat
+                  player
                 </TableCell>
                 <TableCell className={classes.tableHeadCell} align="center">
                   score
@@ -82,11 +87,14 @@ const HistoryDetailTable = ({ history, users }) => {
             <TableBody>
               {directions.map((direction) => (
                 <TableRow key={direction}>
-                  <TableCell className={classes.tableBodyCell} align="center">
-                    {users[history[direction].uid].name}
+                  <TableCell
+                    className={classes.tableBodySeatCell}
+                    align="center"
+                  >
+                    {direction}
                   </TableCell>
                   <TableCell className={classes.tableBodyCell} align="center">
-                    {direction}
+                    {users[history[direction].uid].name}
                   </TableCell>
                   <TableCell className={classes.tableBodyCell} align="center">
                     {history[direction].score}
@@ -139,7 +147,7 @@ const HistoryDetail = () => {
       <>
         <div className={classes.pageTitle}>History Details</div>
         <Link to="/history" className={classes.historyLink}>
-          back to history
+          back to History
         </Link>
         <div className={classes.roundNumber}>Round {historyId}</div>
         <Grid container justify="center">

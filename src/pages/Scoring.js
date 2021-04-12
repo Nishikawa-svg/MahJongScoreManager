@@ -6,6 +6,7 @@ import {
   InputLabel,
   Select,
   TextField,
+  Paper,
 } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
 import { AuthContext } from "../contexts/AuthContext";
@@ -14,6 +15,14 @@ import ConfirmResultDialog from "../components/ConfirmResultDialog";
 import { calculatePoints } from "../utils/CalculatePoints";
 
 const useStyles = makeStyles((theme) => ({
+  pageTitle: {
+    fontSize: 24,
+    margin: "10px 0px",
+  },
+  scorePaper: {
+    marginBottom: 10,
+    padding: "5px 5px",
+  },
   directionContainer: {
     border: "1px solid",
     borderRadius: "10px",
@@ -22,15 +31,22 @@ const useStyles = makeStyles((theme) => ({
   },
   direction: {
     textAlign: "center",
-    fontSize: 24,
-    marginBottom: 10,
-    marginTop: 20,
+    fontSize: 18,
+    marginBottom: 5,
   },
   selectForm: {
-    width: "100%",
+    width: "90%",
   },
   inputForm: {
-    width: "100%",
+    width: "90%",
+  },
+  playerErrorMessage: {
+    color: "red",
+    fontSize: 18,
+  },
+  scoreErrorMessage: {
+    color: "red",
+    fontSize: 18,
   },
 }));
 
@@ -38,6 +54,11 @@ const directions = ["East", "South", "West", "North"];
 
 const initialPlayers = ["", "", "", ""];
 const initialScores = ["", "", "", ""];
+const initialPlayerError = {
+  player: [false, false, false, false],
+  message: "",
+};
+const initialScoreError = { score: [false, false, false, false], message: "" };
 
 const Scoring = () => {
   const { users, rules, addGameResult } = useContext(CommunityContext);
@@ -46,6 +67,8 @@ const Scoring = () => {
   const [scores, setScores] = useState(initialScores);
   const [gameRecode, setGameRecode] = useState();
   const [modalOpen, setModalOpen] = useState(false);
+  const [playerError, setPlayerError] = useState(initialPlayerError);
+  const [scoreError, setScoreError] = useState(initialScoreError);
   const classes = useStyles();
   const handlePlayerChange = (e, index) => {
     let newPlayers = [...players];
@@ -58,21 +81,24 @@ const Scoring = () => {
     newScores[index] = e.target.value;
     setScores(newScores);
   };
-  const numberJudge = (input) => {
-    return isNaN(input);
-  };
   const handleConfirm = () => {
     const scorer = loginUser.uid;
-    const { valid, errorMessage, newGameRecode } = calculatePoints(
-      players,
-      scores,
-      rules,
-      scorer
-    );
-    console.log(valid, errorMessage, newGameRecode);
-    if (!valid) alert(errorMessage);
-    if (valid) {
+    const {
+      isValid,
+      playerErrorCheck,
+      scoreErrorCheck,
+      playerErrorMessage,
+      scoreErrorMessage,
+      newGameRecode,
+    } = calculatePoints(players, scores, rules, scorer);
+    if (!isValid) {
+      setPlayerError({ player: playerErrorCheck, message: playerErrorMessage });
+      setScoreError({ score: scoreErrorCheck, message: scoreErrorMessage });
+    }
+    if (isValid) {
       setGameRecode(newGameRecode);
+      setPlayerError(initialPlayerError);
+      setScoreError(initialScoreError);
       setModalOpen(true);
     }
   };
@@ -87,14 +113,20 @@ const Scoring = () => {
   };
   return (
     <>
-      <div>Scoring</div>
+      <div className={classes.pageTitle}>Scoring</div>
+      <div className={classes.playerErrorMessage}>{playerError.message}</div>
+      <div className={classes.scoreErrorMessage}>{scoreError.message}</div>
       {directions.map((direction, index) => (
-        <div key={direction} className={classes.directionContainer}>
-          <div className={classes.direction}>start at {direction}</div>
-          <Grid container justify="center">
-            <Grid item xs={6}>
+        <Grid container justify="center" key={direction}>
+          <Grid item xs={12} sm={8} md={8} lg={6}>
+            <Paper className={classes.scorePaper}>
               <Grid container justify="center">
-                <Grid item xs={11}>
+                <Grid item>
+                  <div className={classes.direction}>start at {direction}</div>
+                </Grid>
+              </Grid>
+              <Grid container justify="space-around">
+                <Grid item xs={6}>
                   <FormControl
                     variant="outlined"
                     className={classes.selectForm}
@@ -105,6 +137,7 @@ const Scoring = () => {
                       label="player"
                       value={players[index]}
                       onChange={(e) => handlePlayerChange(e, index)}
+                      error={playerError.player[index]}
                     >
                       <option value="" />
                       {Object.keys(users).map((key) => (
@@ -115,25 +148,21 @@ const Scoring = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={6}>
-              <Grid container justify="center">
-                <Grid item xs={11}>
+                <Grid item xs={6}>
                   <TextField
                     className={classes.inputForm}
                     label="score"
                     type="number"
                     value={scores[index]}
-                    error={numberJudge(scores[index])}
+                    error={scoreError.score[index]}
                     onChange={(e) => handleScoreChange(e, index)}
                     variant="outlined"
                   />
                 </Grid>
               </Grid>
-            </Grid>
+            </Paper>
           </Grid>
-        </div>
+        </Grid>
       ))}
       <ConfirmResultDialog
         modalOpen={modalOpen}
@@ -141,21 +170,9 @@ const Scoring = () => {
         handleConfirm={handleConfirm}
         handleModalClose={handleModalClose}
         handleRecodeGameResult={handleRecodeGameResult}
-        players={players}
-        scores={scores}
+        gameRecode={gameRecode}
+        users={users}
       />
-      <div>
-        {scores.map((score, index) => (
-          <div key={index}>
-            score{index} : {score}
-          </div>
-        ))}
-        {players.map((user, index) => (
-          <div key={index}>
-            user{index} : {user}
-          </div>
-        ))}
-      </div>
     </>
   );
 };

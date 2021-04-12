@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
-    fontSize: 30,
-    margin: "20px 0px",
+    fontSize: 24,
+    margin: "10px 0px",
   },
 
   mainContainer: {
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButtonFocused: {
     textTransform: "none",
+    fontWeight: "bold",
     margin: "5px 5px",
   },
 
@@ -35,8 +36,7 @@ const useStyles = makeStyles((theme) => ({
       "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset",
   },
   tableContainer: {
-    borderRadius: "5px",
-    backgroundColor: "white",
+    backgroundColor: "#ffffff",
     boxShadow:
       "rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px",
   },
