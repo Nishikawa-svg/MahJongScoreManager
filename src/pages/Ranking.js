@@ -88,7 +88,7 @@ const RankingTable = (users, rankings, menuIndex) => {
         </TableHead>
         <TableBody>
           {rankings[key].map((ranking) => (
-            <TableRow>
+            <TableRow key={ranking.uid}>
               <TableCell>{ranking.rank}</TableCell>
               <TableCell align="center">
                 <Link to={`/users/${ranking.uid}`} className={classes.userLink}>
