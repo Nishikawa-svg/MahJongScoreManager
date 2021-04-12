@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import { Button, TextField, Grid, Paper, makeStyles } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
 import { Link } from "react-router-dom";
-import PersonIcon from "@material-ui/icons/Person";
-
+// import PersonIcon from "@material-ui/icons/Person";
+import { BiUserCircle } from "react-icons/bi";
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
     fontSize: 30,
@@ -11,10 +11,9 @@ const useStyles = makeStyles((theme) => ({
   },
 
   personBox: {
-    boxShadow:
-      "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
     padding: "15px",
-    margin: "5px 5px",
+    margin: "10px 15px",
+    backgroundColor: "#f8f9fa",
     // "--c": "rgba(255,255,255,0.7)",
     // "--t": "transparent",
     // backgroundImage:
@@ -25,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   personIcon: {
-    fontSize: 28,
+    fontSize: 40,
+    color: "#aaaaaa",
   },
   personName: {
     fontSize: 20,
@@ -47,10 +47,10 @@ const Users = () => {
             <Link to={`/users/${key}`} className={classes.personLink} key={key}>
               <Paper className={classes.personBox}>
                 <Grid container>
-                  <Grid item>
-                    <PersonIcon className={classes.personIcon} />
+                  <Grid item xs={2}>
+                    <BiUserCircle className={classes.personIcon} />
                   </Grid>
-                  <Grid item>
+                  <Grid item xs={10}>
                     <div className={classes.personName}>{users[key].name}</div>
                   </Grid>
                 </Grid>

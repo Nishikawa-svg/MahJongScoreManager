@@ -20,11 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
   privateMainContainer: {
     paddingTop: 64,
+    height: "100vh",
     [theme.breakpoints.up("md")]: {
       paddingLeft: 240,
     },
   },
   publicMainContainer: {
+    height: "100vh",
     paddingTop: 64,
   },
 }));

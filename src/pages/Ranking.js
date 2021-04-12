@@ -77,7 +77,9 @@ const RankingTable = (users, rankings, menuIndex) => {
       <Table>
         <TableHead>
           <TableRow className={classes.headRow}>
-            <TableCell className={classes.headCell}>rank</TableCell>
+            <TableCell className={classes.headCell} align="center">
+              rank
+            </TableCell>
             <TableCell className={classes.headCell} align="center">
               player
             </TableCell>
@@ -89,7 +91,7 @@ const RankingTable = (users, rankings, menuIndex) => {
         <TableBody>
           {rankings[key].map((ranking) => (
             <TableRow key={ranking.uid}>
-              <TableCell>{ranking.rank}</TableCell>
+              <TableCell align="center">{ranking.rank}</TableCell>
               <TableCell align="center">
                 <Link to={`/users/${ranking.uid}`} className={classes.userLink}>
                   {users[ranking.uid].name}
@@ -113,6 +115,7 @@ const Ranking = () => {
     <>
       {rankingName.map((ranking, index) => (
         <Button
+          key={index}
           onClick={() => setMenuIndex(index)}
           color={index === menuIndex ? "secondary" : "inherit"}
           variant="contained"
@@ -134,7 +137,7 @@ const Ranking = () => {
         <div className={classes.pageTitle}>Ranking</div>
         {rankingMenu}
         <Grid container justify="center">
-          <Grid item xs={10}>
+          <Grid item xs={12} sm={8} md={8} lg={6}>
             {RankingTable(users, rankings, menuIndex)}
           </Grid>
         </Grid>
