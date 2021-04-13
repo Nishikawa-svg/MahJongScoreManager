@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   personBox: {
-    padding: "15px",
+    padding: "5px 5px",
     margin: "10px 15px",
     backgroundColor: "#f8f9fa",
     // "--c": "rgba(255,255,255,0.7)",
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 40,
   },
   personName: {
-    fontSize: 26,
+    fontSize: 20,
     marginTop: 5,
     marginLeft: 10,
   },
@@ -44,9 +44,6 @@ const Users = () => {
       <div className={classes.pageTitle}>Users</div>
       <Grid container justify="center">
         <Grid item xs={12} sm={6}>
-          <Grid container justify="flex-end">
-            <AddUserDialog />
-          </Grid>
           {Object.keys(users).map((key) => (
             <Link to={`/users/${key}`} className={classes.personLink} key={key}>
               <Paper className={classes.personBox}>
@@ -68,6 +65,11 @@ const Users = () => {
           ))}
         </Grid>
       </Grid>
+      <Grid container justify="center">
+        <AddUserDialog />
+      </Grid>
+      <br />
+      <br />
     </>
   );
 };

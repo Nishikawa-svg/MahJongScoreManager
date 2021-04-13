@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 24,
     margin: "10px 0px",
   },
+  formContaniner: {
+    padding: "0px 10px",
+  },
   scorePaper: {
     marginBottom: 10,
     padding: "5px 5px",
@@ -117,7 +120,12 @@ const Scoring = () => {
       <div className={classes.playerErrorMessage}>{playerError.message}</div>
       <div className={classes.scoreErrorMessage}>{scoreError.message}</div>
       {directions.map((direction, index) => (
-        <Grid container justify="center" key={direction}>
+        <Grid
+          container
+          justify="center"
+          key={direction}
+          className={classes.formContaniner}
+        >
           <Grid item xs={12} sm={8} md={8} lg={6}>
             <Paper className={classes.scorePaper}>
               <Grid container justify="center">

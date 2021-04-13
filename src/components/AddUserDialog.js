@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   errorMessage: {
     color: "red",
-    marginTop: 20,
+    // marginTop: 20,
   },
   dialogCancelButton: {
     textTransform: "none",

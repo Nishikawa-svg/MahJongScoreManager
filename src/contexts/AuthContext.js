@@ -31,7 +31,10 @@ const AuthProvider = (props) => {
         setIsAuth(true);
         history.push("/");
       })
-      .catch((error) => console.log("log in error ", error));
+      .catch((error) => {
+        console.log("log in error ", error);
+        alert("log in failed");
+      });
   };
   const logout = () => {
     setIsAuth(false);

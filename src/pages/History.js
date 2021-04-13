@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableContainer: {
     [theme.breakpoints.down("xs")]: {
-      maxHeight: 440,
+      maxHeight: 400,
     },
   },
   tableHeadRow: {},
@@ -55,7 +55,7 @@ const pageRowOptionList = [5, 10, 25, 50, 100];
 
 const HistoryTable = ({ history, users }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(pageRowOptionList[0]);
+  const [rowsPerPage, setRowsPerPage] = useState(pageRowOptionList[1]);
 
   const handleChangePage = (e, newPage) => {
     setPage(newPage);

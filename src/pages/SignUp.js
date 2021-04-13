@@ -55,8 +55,11 @@ const SignUp = () => {
   const { signUp } = useContext(AuthContext);
   const classes = useStyles();
   const handleSignUp = () => {
+    const newUsername = username.trim();
     if (password !== passwordComfirmation) {
-      alert("password and confirm password should be matched");
+      alert("Password and confirm password should be matched.");
+    } else if (newUsername === "") {
+      alert("Please enter username.");
     } else {
       signUp(username, email, password);
     }

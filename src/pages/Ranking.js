@@ -138,7 +138,7 @@ const Ranking = () => {
       <div className={classes.mainContainer}>
         <div className={classes.pageTitle}>Ranking</div>
         {rankingMenu}
-        <Grid container justify="center">
+        <Grid container justify="center" style={{ padding: "0px 10px" }}>
           <Grid item xs={12} sm={8} md={8} lg={6}>
             {RankingTable(users, rankings, menuIndex)}
           </Grid>
