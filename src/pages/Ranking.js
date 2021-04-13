@@ -26,14 +26,16 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     fontWeight: "bold",
     margin: "5px 5px",
+    backgroundColor: "#ffffff",
   },
 
   menuButtonUnFocused: {
     textTransform: "none",
     margin: "5px 5px",
-    color: "#ffffff",
-    boxShadow:
-      "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset",
+    backgroundColor: "#ffffff",
+    // color: "#ffffff",
+    // boxShadow:
+    //   "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset",
   },
   tableContainer: {
     backgroundColor: "#ffffff",
@@ -117,8 +119,8 @@ const Ranking = () => {
         <Button
           key={index}
           onClick={() => setMenuIndex(index)}
-          color={index === menuIndex ? "secondary" : "inherit"}
-          variant="contained"
+          color={index === menuIndex ? "secondary" : "primary"}
+          variant="outlined"
           className={
             index === menuIndex
               ? classes.menuButtonFocused

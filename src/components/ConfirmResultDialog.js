@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     marginBottom: 30,
     fontWeight: "bold",
+    backgroundColor: "#ffffff",
     marginTop: 10,
     width: 120,
     height: 40,
@@ -133,7 +134,7 @@ const ConfirmResultDialog = ({
       <Button
         className={classes.confirmButton}
         onClick={handleConfirm}
-        variant="contained"
+        variant="outlined"
         color="secondary"
       >
         confirm

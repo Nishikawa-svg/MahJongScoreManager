@@ -134,14 +134,15 @@ const CommunityProvider = (props) => {
       .catch((error) => console.log("Error getting document : rules", error));
   };
 
-  const addNewUser = (newUser) => {
-    console.log(newUser);
+  const addNewUser = (newUser, selectedAvatar) => {
+    console.log(newUser, selectedAvatar);
 
     db.collection("communities")
       .doc(myCommunityId)
       .collection("users")
       .add({
-        name: newUser.name,
+        name: newUser,
+        color: selectedAvatar,
         created_at: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {
