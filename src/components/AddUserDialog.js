@@ -12,6 +12,7 @@ import {
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { CommunityContext } from "../contexts/CommunityContext";
 import ColoredAvatar from "../components/ColoredAvatar";
+import CompleteRegistrationDialog from "../components/CompleteRegistrationDialog";
 
 const useStyles = makeStyles((theme) => ({
   addUserButton: {
@@ -69,6 +70,7 @@ const AddUserDialog = () => {
   const classes = useStyles();
   const [newUser, setNewUser] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [completeModalOpen, setCompleteModalOpen] = useState(false);
   const [inputError, setInputError] = useState({
     isError: false,
     errorMessage: "",
@@ -89,6 +91,8 @@ const AddUserDialog = () => {
     } else {
       addNewUser(newUsername, selectedAvatar);
       setOpenModal(false);
+      handleCompleteModalOpen();
+      setTimeout(() => handleCompleteModalClose(), 1500);
     }
   };
   const handleModalOpen = () => {
@@ -96,6 +100,12 @@ const AddUserDialog = () => {
   };
   const handleModalClose = () => {
     setOpenModal(false);
+  };
+  const handleCompleteModalOpen = () => {
+    setCompleteModalOpen(true);
+  };
+  const handleCompleteModalClose = () => {
+    setCompleteModalOpen(false);
   };
 
   return (
@@ -195,6 +205,7 @@ const AddUserDialog = () => {
           </Grid>
         </DialogActions>
       </Dialog>
+      <CompleteRegistrationDialog completeModalOpen={completeModalOpen} />
     </>
   );
 };

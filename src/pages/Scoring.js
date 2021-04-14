@@ -11,6 +11,7 @@ import {
 import { CommunityContext } from "../contexts/CommunityContext";
 import { AuthContext } from "../contexts/AuthContext";
 import ConfirmResultDialog from "../components/ConfirmResultDialog";
+import CompleteRegistrationDialog from "../components/CompleteRegistrationDialog";
 
 import { calculatePoints } from "../utils/CalculatePoints";
 
@@ -69,6 +70,7 @@ const Scoring = () => {
   const [players, setPlayers] = useState(initialPlayers);
   const [scores, setScores] = useState(initialScores);
   const [gameRecode, setGameRecode] = useState();
+  const [completeModalOpen, setCompleteModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [playerError, setPlayerError] = useState(initialPlayerError);
   const [scoreError, setScoreError] = useState(initialScoreError);
@@ -111,9 +113,18 @@ const Scoring = () => {
   const handleRecodeGameResult = () => {
     addGameResult(gameRecode);
     setModalOpen(false);
+    handleCompleteModalOpen();
+    setTimeout(() => handleCompleteModalClose(), 1500);
     setPlayers(initialPlayers);
     setScores(initialScores);
   };
+  const handleCompleteModalClose = () => {
+    setCompleteModalOpen(false);
+  };
+  const handleCompleteModalOpen = () => {
+    setCompleteModalOpen(true);
+  };
+
   return (
     <>
       <div className={classes.pageTitle}>Scoring</div>
@@ -180,6 +191,10 @@ const Scoring = () => {
         handleRecodeGameResult={handleRecodeGameResult}
         gameRecode={gameRecode}
         users={users}
+      />
+      <CompleteRegistrationDialog
+        handleCompleteModalClose={handleCompleteModalClose}
+        completeModalOpen={completeModalOpen}
       />
     </>
   );

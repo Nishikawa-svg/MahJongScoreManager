@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     // "--t": "transparent",
     // backgroundImage:
     //   "repeating-linear-gradient(45deg, var(--c) 0, var(--c) 20px, var(--t) 20px, var(--t) 32px, var(--c) 32px, var(--c) 44px, var(--t) 44px, var(--t) 56px, var(--c) 56px, var(--c) 68px, var(--t) 68px, var(--t) 80px, var(--c) 0),  repeating-linear-gradient(-45deg, var(--c) 0, var(--c) 20px, var(--t) 20px, var(--t) 32px, var(--c) 32px, var(--c) 44px, var(--t) 44px, var(--t) 56px, var(--c) 56px, var(--c) 68px, var(--t) 68px, var(--t) 80px, var(--c) 0),  linear-gradient(to bottom right, #FC354C, #0ABFBC)",
-    borderRadius: "50px",
+    borderRadius: "10px",
   },
   personLink: {
     textDecoration: "none",

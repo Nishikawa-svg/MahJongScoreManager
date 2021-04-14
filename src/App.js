@@ -2,7 +2,12 @@ import React, { useContext } from "react";
 import PrivateLayout from "./components/PrivateLayout";
 import PublicLayout from "./components/PublicLayout";
 import { makeStyles } from "@material-ui/core";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import Scoring from "./pages/Scoring";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -75,8 +80,11 @@ const PrivateRoute = () => {
               <Route path="/scoring">
                 <Scoring />
               </Route>
-              <Route path="/">
+              <Route path="/home">
                 <Home />
+              </Route>
+              <Route path="/">
+                <Redirect to="/home" />
               </Route>
             </Switch>
           </div>
@@ -89,7 +97,7 @@ const PrivateRoute = () => {
               <Route path="/signup">
                 <SignUp />
               </Route>
-              <Route path="/">
+              <Route path="/" exact>
                 <Login />
               </Route>
             </Switch>

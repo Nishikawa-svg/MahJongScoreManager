@@ -114,14 +114,13 @@ const getRankDetailDate = (rawData, chartOption) => {
   let southRatio = [0, 0, 0, 0];
   let westRatio = [0, 0, 0, 0];
   let northRatio = [0, 0, 0, 0];
-  if (totalSum)
-    for (let i = 0; i < 4; i++) {
-      totalRatio[i] = Math.round((total[i] / totalSum) * 1000) / 10;
-      eastRatio[i] = Math.round((east[i] / eastSum) * 1000) / 10;
-      southRatio[i] = Math.round((south[i] / southSum) * 1000) / 10;
-      westRatio[i] = Math.round((west[i] / westSum) * 1000) / 10;
-      northRatio[i] = Math.round((north[i] / northSum) * 1000) / 10;
-    }
+  for (let i = 0; i < 4; i++) {
+    totalRatio[i] = Math.round((total[i] / totalSum) * 1000) / 10;
+    eastRatio[i] = Math.round((east[i] / eastSum) * 1000) / 10;
+    southRatio[i] = Math.round((south[i] / southSum) * 1000) / 10;
+    westRatio[i] = Math.round((west[i] / westSum) * 1000) / 10;
+    northRatio[i] = Math.round((north[i] / northSum) * 1000) / 10;
+  }
 
   let isValid = true;
   let data;
@@ -144,7 +143,7 @@ const getRankDetailDate = (rawData, chartOption) => {
       if (southSum === 0) isValid = false;
       else {
         if (chartOption.chartType === 0) data = south;
-        else return (data = southRatio);
+        else data = southRatio;
       }
       break;
     case 3:
