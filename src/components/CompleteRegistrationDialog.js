@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Grid,
 } from "@material-ui/core";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const useStyles = makeStyles((theme) => ({
   dailog: {},
@@ -19,13 +19,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 130,
     marginTop: 80,
     marginBottom: 80,
+    color: "#7cfc00",
   },
 }));
 
-const CompleteRegistrationDialog = ({
-  completeModalOpen,
-  handleCompleteModalClose,
-}) => {
+const CompleteRegistrationDialog = ({ completeModalOpen }) => {
   const classes = useStyles();
 
   return (
@@ -42,10 +40,7 @@ const CompleteRegistrationDialog = ({
         <DialogContent>
           <Grid container justify="center">
             <Grid item>
-              <CheckCircleOutlineIcon
-                className={classes.dialogIcon}
-                color="secondary"
-              />
+              <CheckCircleIcon className={classes.dialogIcon} />
             </Grid>
           </Grid>
         </DialogContent>

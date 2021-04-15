@@ -110,8 +110,6 @@ const getPointTransaction = (rank, rankPoints) => {
 };
 
 export const calculatePoints = (players, scores, rules, scorer) => {
-  console.log("calculate points", players, scores, rules, scorer);
-
   let points = [0, 0, 0, 0];
   let totalScore = 0;
   let newGameRecode = {};
@@ -127,12 +125,12 @@ export const calculatePoints = (players, scores, rules, scorer) => {
     if (players[i] === "") {
       isValid = false;
       playerErrorCheck[i] = true;
-      playerErrorMessage = "please select all players";
+      playerErrorMessage = "Please select player.";
     }
     if (scores[i] === "") {
       isValid = false;
       scoreErrorCheck[i] = true;
-      scoreErrorMessage = "please enter all player's score";
+      scoreErrorMessage = "Please enter player's score.";
     }
   }
   if (!isValid)
@@ -148,7 +146,7 @@ export const calculatePoints = (players, scores, rules, scorer) => {
     for (let j = i + 1; j < 4; j++) {
       if (players[i] === players[j]) {
         isValid = false;
-        playerErrorMessage = "players are duplicated";
+        playerErrorMessage = "Player is duplicated.";
         playerErrorCheck[i] = true;
         playerErrorCheck[j] = true;
       }
@@ -166,11 +164,11 @@ export const calculatePoints = (players, scores, rules, scorer) => {
   for (let i = 0; i < 4; i++) {
     if (isNaN(parseInt(scores[i]))) {
       isValid = false;
-      scoreErrorMessage = "score must be an integer";
+      scoreErrorMessage = "Score must be an integer";
     }
     if (parseInt(scores[i]) !== Number(scores[i])) {
       isValid = false;
-      scoreErrorMessage = "score must be an integer";
+      scoreErrorMessage = "Score must be an integer";
     }
     points[i] = parseInt(scores[i]);
     totalScore += points[i];
@@ -187,9 +185,9 @@ export const calculatePoints = (players, scores, rules, scorer) => {
   if (totalScore !== rules.score_start * 4) {
     isValid = false;
     for (let i = 0; i < 4; i++) scoreErrorCheck[i] = true;
-    scoreErrorMessage = `all player's score sum must be ${
+    scoreErrorMessage = `All player's score sum must be ${
       rules.score_start * 4
-    }`;
+    }.`;
   }
   if (!isValid)
     return {

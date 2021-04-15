@@ -9,7 +9,6 @@ export const calculatePrivateHistory = (
     const ref = gameRecode[direction];
     let newElement;
     if (ref.uid in privateHistory) {
-      console.log("exist");
       newElement = [...privateHistory[ref.uid].games];
     } else {
       newElement = [];

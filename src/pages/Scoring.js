@@ -6,7 +6,9 @@ import {
   InputLabel,
   Select,
   TextField,
-  Paper,
+  Typography,
+  Card,
+  CardContent,
 } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
 import { AuthContext } from "../contexts/AuthContext";
@@ -35,8 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   direction: {
     textAlign: "center",
-    fontSize: 18,
-    marginBottom: 5,
+    margin: 10,
   },
   selectForm: {
     width: "90%",
@@ -44,13 +45,16 @@ const useStyles = makeStyles((theme) => ({
   inputForm: {
     width: "90%",
   },
-  playerErrorMessage: {
+  errorMessage: {
     color: "red",
-    fontSize: 18,
+    fontSize: 14,
   },
-  scoreErrorMessage: {
-    color: "red",
-    fontSize: 18,
+  card: {},
+  cardContent: {
+    paddingTop: 3,
+  },
+  confirmButton: {
+    marginTop: 20,
   },
 }));
 
@@ -128,9 +132,78 @@ const Scoring = () => {
   return (
     <>
       <div className={classes.pageTitle}>Scoring</div>
-      <div className={classes.playerErrorMessage}>{playerError.message}</div>
-      <div className={classes.scoreErrorMessage}>{scoreError.message}</div>
-      {directions.map((direction, index) => (
+      <Grid container justify="center">
+        <Grid item xs={12} sm={8} md={8} lg={6}>
+          <Card className={classes.card}>
+            <CardContent className={classes.cardContent}>
+              <Typography className={classes.errorMessage}>
+                {playerError.message}
+              </Typography>
+              <Typography className={classes.errorMessage}>
+                {scoreError.message}
+              </Typography>
+              {directions.map((direction, index) => (
+                <div key={index}>
+                  <Typography variant="h6" className={classes.direction}>
+                    Start with {direction}
+                  </Typography>
+                  <Grid container justify="center">
+                    <Grid item xs={6}>
+                      <FormControl
+                        variant="outlined"
+                        className={classes.selectForm}
+                      >
+                        <InputLabel>Player</InputLabel>
+                        <Select
+                          native
+                          label="Player"
+                          value={players[index]}
+                          onChange={(e) => handlePlayerChange(e, index)}
+                          error={playerError.player[index]}
+                        >
+                          <option value="" />
+                          {Object.keys(users).map((key) => (
+                            <option key={key} value={key}>
+                              {users[key].name}
+                            </option>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        className={classes.inputForm}
+                        label="Score"
+                        type="number"
+                        value={scores[index]}
+                        error={scoreError.score[index]}
+                        onChange={(e) => handleScoreChange(e, index)}
+                        variant="outlined"
+                      />
+                    </Grid>
+                  </Grid>
+                </div>
+              ))}
+              <div className={classes.confirmButton}>
+                <ConfirmResultDialog
+                  modalOpen={modalOpen}
+                  setModalOpen={setModalOpen}
+                  handleConfirm={handleConfirm}
+                  handleModalClose={handleModalClose}
+                  handleRecodeGameResult={handleRecodeGameResult}
+                  gameRecode={gameRecode}
+                  users={users}
+                />
+              </div>
+              <CompleteRegistrationDialog
+                handleCompleteModalClose={handleCompleteModalClose}
+                completeModalOpen={completeModalOpen}
+              />
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+      {/* {directions.map((direction, index) => (
         <Grid
           container
           justify="center"
@@ -141,7 +214,9 @@ const Scoring = () => {
             <Paper className={classes.scorePaper}>
               <Grid container justify="center">
                 <Grid item>
-                  <div className={classes.direction}>start at {direction}</div>
+                  <Typography className={classes.direction}>
+                    Start with {direction}
+                  </Typography>
                 </Grid>
               </Grid>
               <Grid container justify="space-around">
@@ -150,7 +225,7 @@ const Scoring = () => {
                     variant="outlined"
                     className={classes.selectForm}
                   >
-                    <InputLabel>player</InputLabel>
+                    <InputLabel>Player</InputLabel>
                     <Select
                       native
                       label="player"
@@ -170,7 +245,7 @@ const Scoring = () => {
                 <Grid item xs={6}>
                   <TextField
                     className={classes.inputForm}
-                    label="score"
+                    label="Score"
                     type="number"
                     value={scores[index]}
                     error={scoreError.score[index]}
@@ -182,20 +257,7 @@ const Scoring = () => {
             </Paper>
           </Grid>
         </Grid>
-      ))}
-      <ConfirmResultDialog
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        handleConfirm={handleConfirm}
-        handleModalClose={handleModalClose}
-        handleRecodeGameResult={handleRecodeGameResult}
-        gameRecode={gameRecode}
-        users={users}
-      />
-      <CompleteRegistrationDialog
-        handleCompleteModalClose={handleCompleteModalClose}
-        completeModalOpen={completeModalOpen}
-      />
+      ))} */}
     </>
   );
 };

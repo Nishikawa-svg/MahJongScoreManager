@@ -191,6 +191,7 @@ export const RankDetailPieChart = ({ rankDetailData, chartOption }) => {
               dataKey="value"
               nameKey="name"
               style={{ padding: 0 }}
+              outerRadius="70%"
               label
             >
               {data.map((item, index) => (

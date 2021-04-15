@@ -20,12 +20,10 @@ import {
 const useStyles = makeStyles((theme) => ({
   confirmButton: {
     textTransform: "none",
-    marginBottom: 30,
-    fontWeight: "bold",
-    backgroundColor: "#ffffff",
-    marginTop: 10,
     width: 120,
     height: 40,
+    color: "blue",
+    border: "solid 1px",
   },
   dialogContent: {
     padding: "0px 15px",
@@ -131,12 +129,7 @@ const ConfirmResultDialog = ({
 
   return (
     <>
-      <Button
-        className={classes.confirmButton}
-        onClick={handleConfirm}
-        variant="outlined"
-        color="secondary"
-      >
+      <Button className={classes.confirmButton} onClick={handleConfirm}>
         confirm
       </Button>
       <Dialog open={modalOpen} className={classes.dialog} maxWidth="md">

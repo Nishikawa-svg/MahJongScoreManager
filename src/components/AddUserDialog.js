@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
   addUserButton: {
     textTransform: "none",
     backgroundColor: "#ffffff",
+    color: "blue",
+    border: "solid 1px",
   },
   personAddButtonContent: {},
   personAddButtonIcon: {
@@ -110,12 +112,7 @@ const AddUserDialog = () => {
 
   return (
     <>
-      <Button
-        className={classes.addUserButton}
-        variant="outlined"
-        color="secondary"
-        onClick={handleModalOpen}
-      >
+      <Button className={classes.addUserButton} onClick={handleModalOpen}>
         <PersonAddIcon className={classes.personAddButtonIcon} />
         <div className={classes.personAddButtonContent}>Add User</div>
       </Button>

@@ -10,7 +10,8 @@ export const CommunityContext = createContext();
 
 const CommunityProvider = (props) => {
   const [users, setUsers] = useState({});
-  const [rules, setRules] = useState();
+  const [rules, setRules] = useState({});
+  const [aboutCommunity, setAboutCommunity] = useState({});
   const [history, setHistory] = useState([]);
   const [result, setResult] = useState({});
   const [rankings, setRankings] = useState({});
@@ -22,12 +23,14 @@ const CommunityProvider = (props) => {
   }, [result]);
 
   useEffect(() => {
+    let unsubscribeGetAboutCommunity = () => {};
     let unsubscribeGetUsers = () => {};
     let unsubscribeGetHistory = () => {};
     let unsubscribeGetResult = () => {};
     let unsubscribeGetPrivateHistory = () => {};
     if (isAuth) {
       console.log("community provider is auth");
+      unsubscribeGetAboutCommunity = onGetAboutCommunity();
       unsubscribeGetUsers = onGetUsers();
       unsubscribeGetHistory = onGetHistory();
       unsubscribeGetResult = onGetResult();
@@ -37,12 +40,28 @@ const CommunityProvider = (props) => {
       console.log("community provider is not auth");
     }
     return () => {
+      unsubscribeGetAboutCommunity();
       unsubscribeGetUsers();
       unsubscribeGetHistory();
       unsubscribeGetResult();
       unsubscribeGetPrivateHistory();
     };
   }, [isAuth]);
+
+  const onGetAboutCommunity = () => {
+    console.log("on get community");
+    return db
+      .collection("communities")
+      .doc(myCommunityId)
+      .collection("about")
+      .onSnapshot((docs) => {
+        let getAboutCommunity = [];
+        docs.forEach((doc) => {
+          getAboutCommunity.push(doc.data());
+        });
+        setAboutCommunity(getAboutCommunity[0]);
+      });
+  };
 
   const onGetUsers = () => {
     console.log("on get user");
@@ -135,8 +154,6 @@ const CommunityProvider = (props) => {
   };
 
   const addNewUser = (newUser, selectedAvatar) => {
-    console.log(newUser, selectedAvatar);
-
     db.collection("communities")
       .doc(myCommunityId)
       .collection("users")
@@ -152,8 +169,6 @@ const CommunityProvider = (props) => {
   };
 
   const addGameResult = (gameRecode) => {
-    console.log("recodeed");
-    console.log(gameRecode);
     const newResult = calculateResult(result, gameRecode);
 
     const updateResult = () => {
@@ -169,13 +184,11 @@ const CommunityProvider = (props) => {
     };
 
     const updatePrivateHistory = (game_id) => {
-      console.log(game_id);
       const newPrivateHistory = calculatePrivateHistory(
         privateHistory,
         gameRecode,
         game_id
       );
-      console.log(newPrivateHistory);
 
       Object.keys(newPrivateHistory).forEach((key) => {
         db.collection("communities")
@@ -198,16 +211,31 @@ const CommunityProvider = (props) => {
       })
       .then((docRef) => {
         console.log("added new game result");
-        console.log(docRef.id);
         updatePrivateHistory(docRef.id);
         updateResult();
       })
       .catch((error) => console.log("Error add to result", error));
   };
 
+  const updateAboutCommunity = (newCommunityName, newOriginalRulesText) => {
+    db.collection("communities")
+      .doc(myCommunityId)
+      .collection("about")
+      .doc(aboutCommunity.doc_id)
+      .set({
+        community_name: newCommunityName,
+        original_rules_text: newOriginalRulesText,
+        created_at: aboutCommunity.created_at,
+        doc_id: aboutCommunity.doc_id,
+      })
+      .then(() => console.log("about community updated"))
+      .catch((error) => console.log("Error update about community ", error));
+  };
+
   return (
     <CommunityContext.Provider
       value={{
+        aboutCommunity: aboutCommunity,
         users: users,
         rules: rules,
         history: history,
@@ -216,6 +244,7 @@ const CommunityProvider = (props) => {
         privateHistory: privateHistory,
         addNewUser: addNewUser,
         addGameResult: addGameResult,
+        updateAboutCommunity: updateAboutCommunity,
       }}
     >
       {props.children}
