@@ -5,6 +5,7 @@ import {
   Hidden,
   IconButton,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
@@ -36,10 +37,10 @@ const PrivateNavbar = ({ openSidebar, closeSideBar }) => {
         </Hidden>
         <div to="/" className={classes.appTitle}>
           <Link to="/" className={classes.homeLink}>
-            Mahjong Score Manager
+            <Typography>Mahjong Score Manager</Typography>
           </Link>
         </div>
-        <div>{loginUser.name}</div>
+        <Typography>{loginUser.name}</Typography>
       </Toolbar>
     </AppBar>
   );

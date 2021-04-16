@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 const AuthProvider = (props) => {
   const history = useHistory();
   useEffect(() => {
+    console.log("auth context is mounted");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log(user.uid, "was log in");
@@ -16,6 +17,9 @@ const AuthProvider = (props) => {
         console.log("not log in");
       }
     });
+    return () => {
+      console.log("auth context is mounted");
+    };
   }, []);
 
   const [isAuth, setIsAuth] = useState(false);

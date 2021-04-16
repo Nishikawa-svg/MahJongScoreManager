@@ -1,6 +1,13 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Button, TextField, Paper, Grid, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Paper,
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -9,12 +16,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     width: "100%",
     textAlign: "center",
-    border: "solid 1px",
     marginBottom: 30,
   },
   formTitle: {
-    fontSize: 24,
-    margin: "8px 8px",
+    margin: "20px 0px",
   },
   formIcon: {
     width: 40,
@@ -78,54 +83,46 @@ const SignUp = () => {
                       className={classes.formIcon}
                     />
                   </Grid>
-                  <Grid item>
-                    <div className={classes.formTitle}>Sign Up</div>
-                  </Grid>
-                  <Grid container justify="flex-start">
-                    <Grid item>Username</Grid>
-                  </Grid>
+                  <Typography className={classes.formTitle} variant="h5">
+                    Sign Up
+                  </Typography>
                   <Grid item>
                     <TextField
                       className={classes.formInputBox}
                       variant="outlined"
+                      label="Username"
                       fullWidth
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </Grid>
-                  <Grid container justify="flex-start">
-                    <Grid item>Email</Grid>
-                  </Grid>
                   <Grid item>
                     <TextField
                       className={classes.formInputBox}
                       variant="outlined"
                       fullWidth
+                      label="Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                  </Grid>
-                  <Grid container justify="flex-start">
-                    <Grid item>Password</Grid>
                   </Grid>
                   <Grid item>
                     <TextField
                       type="password"
                       className={classes.formInputBox}
                       variant="outlined"
+                      label="Password"
                       fullWidth
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </Grid>
-                  <Grid container justify="flex-start">
-                    <Grid item>Confirm Password</Grid>
-                  </Grid>
                   <Grid item>
                     <TextField
                       type="password"
                       className={classes.formInputBox}
                       variant="outlined"
+                      label="Comfirm Password"
                       fullWidth
                       value={passwordComfirmation}
                       onChange={(e) => setPasswordConfirmation(e.target.value)}

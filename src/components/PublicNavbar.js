@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, makeStyles } from "@material-ui/core";
+import { AppBar, Toolbar, makeStyles, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,7 @@ const PublicNavbar = () => {
       <Toolbar>
         <div className={classes.appTitle}>
           <Link to="/" className={classes.homeLink}>
-            Mahjong Score Manager
+            <Typography>Mahjong Score Manager</Typography>
           </Link>
         </div>
       </Toolbar>

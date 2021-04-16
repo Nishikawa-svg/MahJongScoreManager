@@ -1,5 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Button, TextField, Paper, Grid, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Paper,
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import { AuthContext } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
@@ -9,12 +16,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     width: "100%",
     textAlign: "center",
-    border: "solid 1px",
     marginBottom: 30,
   },
   formTitle: {
-    fontSize: 24,
-    margin: "8px 8px",
+    margin: "20px 0px",
   },
   formLockIcon: {
     width: 40,
@@ -75,30 +80,28 @@ const Login = () => {
                     />
                   </Grid>
                   <Grid item>
-                    <div className={classes.formTitle}>Sign In</div>
-                  </Grid>
-                  <Grid container justify="flex-start">
-                    <Grid item>Email</Grid>
+                    <Typography className={classes.formTitle} variant="h5">
+                      Sign In
+                    </Typography>
                   </Grid>
                   <Grid item>
                     <TextField
                       className={classes.formInputBox}
                       variant="outlined"
                       fullWidth
+                      label="Email"
                       value={formInput.email}
                       onChange={(e) =>
                         setFormInput({ ...formInput, email: e.target.value })
                       }
                     />
                   </Grid>
-                  <Grid container justify="flex-start">
-                    <Grid item>Password</Grid>
-                  </Grid>
                   <Grid item>
                     <TextField
                       type="password"
                       className={classes.formInputBox}
                       variant="outlined"
+                      label="Password"
                       fullWidth
                       value={formInput.password}
                       onChange={(e) =>

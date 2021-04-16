@@ -23,6 +23,7 @@ const CommunityProvider = (props) => {
   }, [result]);
 
   useEffect(() => {
+    console.log("community context is mounted");
     let unsubscribeGetAboutCommunity = () => {};
     let unsubscribeGetUsers = () => {};
     let unsubscribeGetHistory = () => {};
@@ -40,6 +41,7 @@ const CommunityProvider = (props) => {
       console.log("community provider is not auth");
     }
     return () => {
+      console.log("community context is unmounted");
       unsubscribeGetAboutCommunity();
       unsubscribeGetUsers();
       unsubscribeGetHistory();
@@ -191,6 +193,7 @@ const CommunityProvider = (props) => {
       );
 
       Object.keys(newPrivateHistory).forEach((key) => {
+        console.log("update private history");
         db.collection("communities")
           .doc(myCommunityId)
           .collection("private_history")
