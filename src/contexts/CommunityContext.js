@@ -72,17 +72,17 @@ const CommunityProvider = (props) => {
       .doc(myCommunityId)
       .collection("users")
       .onSnapshot((docs) => {
-        docs.docChanges().forEach((change) => {
-          if (change.type === "added") {
-            console.log("on Get User => Added", change.doc.data());
-          }
-          if (change.type === "modified") {
-            console.log("on Get User => Modified", change.doc.data());
-          }
-          if (change.type === "removed") {
-            console.log("on Get User => Removed", change.doc.data());
-          }
-        });
+        // docs.docChanges().forEach((change) => {
+        //   if (change.type === "added") {
+        //     console.log("on Get User => Added", change.doc.data());
+        //   }
+        //   if (change.type === "modified") {
+        //     console.log("on Get User => Modified", change.doc.data());
+        //   }
+        //   if (change.type === "removed") {
+        //     console.log("on Get User => Removed", change.doc.data());
+        //   }
+        // });
         let getUserList = {};
         docs.forEach((doc) => {
           getUserList[doc.id] = doc.data();

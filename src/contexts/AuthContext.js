@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import firebase from "../Firebase";
+import firebase, { db } from "../Firebase";
 
 export const AuthContext = createContext();
 
@@ -8,6 +8,8 @@ const AuthProvider = (props) => {
   const history = useHistory();
   useEffect(() => {
     console.log("auth context is mounted");
+    let unsubscribeGetAuthUsers = onGetAuthUsers();
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log(user.uid, "was log in");
@@ -17,13 +19,27 @@ const AuthProvider = (props) => {
         console.log("not log in");
       }
     });
+
     return () => {
       console.log("auth context is mounted");
+      unsubscribeGetAuthUsers();
     };
   }, []);
 
   const [isAuth, setIsAuth] = useState(false);
   const [loginUser, setLoginUser] = useState({ uid: "", name: "" });
+  const [authUsers, setAuthUsers] = useState({});
+
+  const onGetAuthUsers = () => {
+    console.log("on get auth users");
+    return db.collection("users").onSnapshot((docs) => {
+      let getAuthUsersList = {};
+      docs.forEach((doc) => {
+        getAuthUsersList[doc.id] = doc.data();
+      });
+      setAuthUsers(getAuthUsersList);
+    });
+  };
 
   const login = (email, password) => {
     console.log(email, password);
@@ -32,6 +48,7 @@ const AuthProvider = (props) => {
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
         console.log("log in success");
+        console.log(res.user.uid);
         setIsAuth(true);
         history.push("/");
       })
@@ -58,9 +75,18 @@ const AuthProvider = (props) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((res) => {
         console.log("sign up success");
-        setIsAuth(true);
+        db.collection("users")
+          .doc(res.user.uid)
+          .set({
+            uid: res.user.uid,
+            name: username,
+            created_at: firebase.firestore.FieldValue.serverTimestamp(),
+          })
+          .then(() => console.log("added userInfo to db"))
+          .catch((error) => console.log("failed to add userInfo to db", error));
+
         firebase
           .auth()
           .currentUser.updateProfile({
@@ -68,10 +94,11 @@ const AuthProvider = (props) => {
           })
           .then(() => {
             console.log("username updated");
-            setLoginUser({ uid: "", name: username });
+            setLoginUser({ uid: res.user.uid, name: username });
             history.push("/");
           })
           .catch((error) => console.log("username update failer", error));
+        setIsAuth(true);
       })
       .catch((error) => console.log("sign up failed", error));
   };
@@ -85,6 +112,7 @@ const AuthProvider = (props) => {
         logout: logout,
         signUp: signUp,
         loginUser: loginUser,
+        authUsers: authUsers,
       }}
     >
       {props.children}

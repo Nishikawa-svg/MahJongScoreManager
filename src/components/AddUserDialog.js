@@ -92,8 +92,11 @@ const AddUserDialog = () => {
       });
     } else {
       addNewUser(newUsername, selectedAvatar);
+      setNewUser("");
+      setSelectedAvatar(0);
       setOpenModal(false);
       handleCompleteModalOpen();
+
       setTimeout(() => handleCompleteModalClose(), 1500);
     }
   };

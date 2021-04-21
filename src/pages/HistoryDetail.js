@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { CommunityContext } from "../contexts/CommunityContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 const directions = ["east", "south", "west", "north"];
 
-const HistoryDetailTable = ({ history, users }) => {
+const HistoryDetailTable = ({ history, users, authUsers }) => {
   const getDate = (seconds) => {
     let date = new Date(seconds * 1000);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
@@ -110,7 +111,7 @@ const HistoryDetailTable = ({ history, users }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <div>scored by : {history.scorer}</div>
+        <div>scored by : {authUsers[history.scorer]?.name}</div>
         <div>created at : {getDate(history.created_at.seconds)}</div>
       </Paper>
     );
@@ -119,6 +120,7 @@ const HistoryDetailTable = ({ history, users }) => {
 
 const HistoryDetail = () => {
   const { history, users } = useContext(CommunityContext);
+  const { authUsers } = useContext(AuthContext);
   const classes = useStyles();
   const { historyId } = useParams();
   const NextResultLink = () => {
@@ -155,6 +157,7 @@ const HistoryDetail = () => {
             <HistoryDetailTable
               history={history[historyId - 1]}
               users={users}
+              authUsers={authUsers}
             />
             <Grid container justify="flex-end"></Grid>
             <Grid container justify="space-between">
